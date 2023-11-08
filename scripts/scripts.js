@@ -24,6 +24,28 @@ function createItem(task_name){
     return lst_item
 }
 
+function addItemToList(){
+    if(added_task_name.value == ""){
+        alert("add task name")
+    } else{
+        const task = createItem(added_task_name)
+        if(document.getElementsByTagName("ul").length == 0){
+            const tasks_list = createHtmlTagWithClassName("ul","tasks-list")
+            tasks_list.appendChild(task)
+            const list_container = document.getElementsByClassName("list-container")[0]
+            list_container.appendChild(tasks_list)
+            added_task_name.value = ""
+        }
+        else{
+            const tasks_list = document.getElementsByClassName("tasks-list")[0]
+            tasks_list.appendChild(task)
+            added_task_name.value = ""
+        }
+    }
+    
+}
+const add_task_button = document.getElementById("add-task-button")
+add_task_button.addEventListener('click', addItemToList) 
 
 
 
