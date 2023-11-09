@@ -65,6 +65,12 @@ function editTask(index){
     })
 }
 
+function deleteTask(index){
+    const main_list = document.getElementsByClassName("tasks-list")[0]
+    const liToBeDeleted = document.getElementsByClassName("task-element")[index]
+    main_list.removeChild(liToBeDeleted)
+
+}
 
 const list_container = document.getElementsByClassName("list-container")[0]
 // event listener to the whole unordered list container
