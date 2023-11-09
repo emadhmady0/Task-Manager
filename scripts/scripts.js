@@ -12,18 +12,20 @@ function createHtmlTagWithId(tag_name,id_name){
     return tag
 }
 
+// function that takes input field name and returns an li element with div that contains the input field value,and two buttons
 function createItem(task_name){
     const lst_item = createHtmlTagWithClassName("li","task-element")
     const item_name_div = createHtmlTagWithClassName("div","task-text")
-    const edit_item_btn = createHtmlTagWithId("button","edit-task-btn")
-    const delete_item_btn = createHtmlTagWithId("button","delete-task-btn")
+    const edit_item_btn = createHtmlTagWithClassName("button","edit-task-btn")
+    const delete_item_btn = createHtmlTagWithClassName("button","delete-task-btn")
     item_name_div.innerHTML = task_name.value
     edit_item_btn.innerHTML = "edit"
     delete_item_btn.innerHTML = "delete"
     lst_item.append(item_name_div,edit_item_btn,delete_item_btn)
     return lst_item
 }
-
+// function that creates an "unordedlist" when the first "li" is added, 
+// or adds "li" to the "unorderedlist" if already created
 function addItemToList(){
     if(added_task_name.value == ""){
         alert("add task name")
@@ -47,6 +49,45 @@ function addItemToList(){
 const add_task_button = document.getElementById("add-task-button")
 add_task_button.addEventListener('click', addItemToList) 
 
+// this function replaces an "li" with an input field to edit its text
+// then replaces the input field with a new "li" that contains the edited text
+function editTask(index){
+    const edit_input_field = document.createElement("input")
+    edit_input_field.type = "text"
+    edit_input_field.classList.add("edit-input-field")
+    const liToBeEdited = document.getElementsByClassName("task-element")[index]
+    edit_input_field.value = document.getElementsByClassName("task-text")[index].textContent
+    liToBeEdited.parentNode.replaceChild(edit_input_field,liToBeEdited)
+    edit_input_field.addEventListener("blur",function(){
+        const edited_text = edit_input_field
+        const new_li = createItem(edited_text)
+        edit_input_field.parentNode.replaceChild(new_li,edit_input_field)
+    })
+}
 
 
+const list_container = document.getElementsByClassName("list-container")[0]
+// event listener to the whole unordered list container
+list_container.addEventListener("click", function(e) {
+    if (e.target.tagName === "BUTTON" && e.target.classList.contains("edit-task-btn")) {
+        // Traverse up the DOM to find the closest <li> element
+        const liElement = e.target.closest("li");
+    
+        // Get the index of the <li> element
+        const index = Array.from(liElement.parentNode.children).indexOf(liElement);
+        editTask(index)
+    }
+    else if(e.target.tagName === "BUTTON" && e.target.classList.contains("delete-task-btn")){
+        let liElement = e.target.closest("li");
+        let index = Array.from(liElement.parentNode.children).indexOf(liElement);
+        console.log("Delete Button clicked at index: " + index);
+        deleteTask(index)
+    }
+    else if (e.target.tagName === "DIV"){
+        let liElement = e.target.closest("li");
+        let index = Array.from(liElement.parentNode.children).indexOf(liElement);
+        console.log("div clicked at index: " + index);
+    }
+  
+});
 
