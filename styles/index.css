@@ -1,0 +1,60 @@
+h1{
+    color: goldenrod;
+    text-align: center;
+    font-size: 50px;
+}
+.task-element{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 50vw;
+    height: 5vh;
+    gap: 20px;
+    flex-wrap: wrap; 
+}
+.tasks-list{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+.task-text{
+    padding: 5px;
+    border-radius: 3px;
+    background-color:goldenrod;
+    cursor: pointer;
+    color: whitesmoke;
+}
+.edit-task-btn{
+    transform: rotate(130deg);
+    background-color: transparent;
+    border: none; cursor: pointer;
+    font-size: 18px;
+}
+.delete-task-btn{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+.input-field{
+    width: 230px;
+    border-radius: 3px;
+    padding: 5px;
+    border-color: goldenrod;
+    outline: none;
+}
+#add-task-button{
+    cursor: pointer;
+    padding: 4px;
+    background-color: goldenrod;
+    color: whitesmoke;
+    border-radius: 3px;
+    border-color: transparent;  
+}
+.completed{
+    text-decoration: line-through;
+    text-decoration-color:black;
+    text-decoration-thickness: 3px;
+}

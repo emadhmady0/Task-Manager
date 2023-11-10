@@ -12,15 +12,16 @@ function createHtmlTagWithId(tag_name,id_name){
     return tag
 }
 
-// function that takes input field name and returns an li element with div that contains the input field value,and two buttons
+// function that takes input field value and returns an li element with div that contains the input field value,and two buttons
 function createItem(task_name){
     const lst_item = createHtmlTagWithClassName("li","task-element")
     const item_name_div = createHtmlTagWithClassName("div","task-text")
+    item_name_div.classList.add("active")
     const edit_item_btn = createHtmlTagWithClassName("button","edit-task-btn")
     const delete_item_btn = createHtmlTagWithClassName("button","delete-task-btn")
-    item_name_div.innerHTML = task_name.value
-    edit_item_btn.innerHTML = "edit"
-    delete_item_btn.innerHTML = "delete"
+    item_name_div.innerHTML = task_name
+    edit_item_btn.innerHTML = "&#x270f;"
+    delete_item_btn.innerHTML = "&#128465;"
     lst_item.append(item_name_div,edit_item_btn,delete_item_btn)
     return lst_item
 }
@@ -30,7 +31,7 @@ function addItemToList(){
     if(added_task_name.value == ""){
         alert("add task name")
     } else{
-        const task = createItem(added_task_name)
+        const task = createItem(added_task_name.value)
         if(document.getElementsByTagName("ul").length == 0){
             const tasks_list = createHtmlTagWithClassName("ul","tasks-list")
             tasks_list.appendChild(task)
@@ -54,14 +55,22 @@ add_task_button.addEventListener('click', addItemToList)
 function editTask(index){
     const edit_input_field = document.createElement("input")
     edit_input_field.type = "text"
-    edit_input_field.classList.add("edit-input-field")
+    edit_input_field.maxLength = 30
+    edit_input_field.classList.add("input-field")
     const liToBeEdited = document.getElementsByClassName("task-element")[index]
-    edit_input_field.value = document.getElementsByClassName("task-text")[index].textContent
+    const original_text = document.getElementsByClassName("task-text")[index].textContent
+    edit_input_field.value = original_text
     liToBeEdited.parentNode.replaceChild(edit_input_field,liToBeEdited)
+    edit_input_field.focus()
     edit_input_field.addEventListener("blur",function(){
-        const edited_text = edit_input_field
-        const new_li = createItem(edited_text)
-        edit_input_field.parentNode.replaceChild(new_li,edit_input_field)
+        if(edit_input_field.value == ""){
+            const new_li = createItem(original_text)
+            edit_input_field.parentNode.replaceChild(new_li,edit_input_field)
+        }
+        else{
+            const new_li = createItem(edit_input_field.value)
+            edit_input_field.parentNode.replaceChild(new_li,edit_input_field)
+        }
     })
 }
 
@@ -70,6 +79,11 @@ function deleteTask(index){
     const liToBeDeleted = document.getElementsByClassName("task-element")[index]
     main_list.removeChild(liToBeDeleted)
 
+}
+function markAsCompleted(index){
+    const task_name = document.getElementsByClassName("task-text")[index]
+    task_name.classList.toggle("active")
+    task_name.classList.toggle("completed")
 }
 
 const list_container = document.getElementsByClassName("list-container")[0]
@@ -86,14 +100,14 @@ list_container.addEventListener("click", function(e) {
     else if(e.target.tagName === "BUTTON" && e.target.classList.contains("delete-task-btn")){
         let liElement = e.target.closest("li");
         let index = Array.from(liElement.parentNode.children).indexOf(liElement);
-        console.log("Delete Button clicked at index: " + index);
         deleteTask(index)
     }
     else if (e.target.tagName === "DIV"){
         let liElement = e.target.closest("li");
         let index = Array.from(liElement.parentNode.children).indexOf(liElement);
-        console.log("div clicked at index: " + index);
+        markAsCompleted(index)
+        
     }
   
-});
+    });
 
