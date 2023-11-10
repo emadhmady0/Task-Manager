@@ -8,9 +8,8 @@ h1{
     flex-direction: row;
     justify-content: center;
     width: 50vw;
-    height: 5vh;
+    height: auto;
     gap: 20px;
-    flex-wrap: wrap; 
 }
 .tasks-list{
     display: flex;
@@ -25,6 +24,7 @@ h1{
     background-color:goldenrod;
     cursor: pointer;
     color: whitesmoke;
+    word-break: break-all;
 }
 .edit-task-btn{
     transform: rotate(130deg);
